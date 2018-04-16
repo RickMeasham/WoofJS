@@ -1615,6 +1615,43 @@
                         tags: "timer sensing"
                      },
                      {html:"<hr style=\"height:7px;border:none;color:#e0e0e0;background-color:#e0e0e0;\"/>"},
+                     {
+                        url:"./images/timer.png",
+                        description:"In WoofJS you can have more than one countdown.",
+                        code: "var countdown = new Countdown( 30, 'seconds', () => {\n    /* Do this when the countdown finishes */\n} )",
+                        tags: "countdown sensing"
+                     },
+                     {
+                        description:"Pause a running Countdown (won't do anything if it's already paused).",
+                        code: "countdown.pause()",
+                        tags: "countdown sensing"
+                     },
+                     {
+                        description:"Resume a paused Countdown (won't do anything if it's not paused).",
+                        code: "countdown.resume()",
+                        tags: "countdown sensing"
+                     },
+                     {
+                        description:"Check if a countdown is running or paused.",
+                        code: "if( countdown.inProgress() ){\n    /* do something if countdown is running */\n}",
+                        tags: "countdown sensing"
+                     },
+                     {
+                        description:"Restart a countdown.",
+                        code: "countdown.restart()",
+                        tags: "countdown sensing"
+                     },
+                     {
+                        description:"Cancel a countdown (same as reset and pause).",
+                        code: "countdown.cancel()",
+                        tags: "countdown sensing"
+                     },
+                     {
+                        description:"Get the number of seconds remaining.",
+                        code: "countdown.remainingSeconds()",
+                        tags: "countdown sensing"
+                     },
+                     {html:"<hr style=\"height:7px;border:none;color:#e0e0e0;background-color:#e0e0e0;\"/>"},
                     {
                         url: "./images/68747470733a2f2f692e696d6775722e636f6d2f61664c6474384b2e706e67",
                         code: "sprite1.x",

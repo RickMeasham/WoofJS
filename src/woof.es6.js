@@ -524,8 +524,58 @@ function Woof({global = false, fullScreen = false, height = 500, width = 350} = 
     if (typeof func != "function" || typeof time != "number") { throw new TypeError("after(time, units, function) requires a number, unit and function input."); }
     thisContext._afters.push(setTimeout(func, milis));
   };
-  
-  thisContext._renderSprites = () => {
+
+    thisContext._countdowns = []; // Not sure why we might need this
+    var Countdown = (time, units, func) => {
+        let milis = Woof.prototype.unitsToMiliseconds(time, units);
+        if (typeof func !== "function" || typeof time !== "number") { throw new TypeError("new Timer(time, units, function) requires a number, unit and function input."); }
+        this.time = milis;
+        this.remaining = milis;
+        this.action = func;
+        this.restart();
+    };
+    Countdown.prototype.restart = (t) => {
+        this.cancel();
+        this.startTime = new Date();
+        this.remaining = t || this.time;
+        let _timerThis = this;
+        this.timeout = window.setTimeout( () => {
+            _timerThis.timeout = undefined;
+            _timerThis.remaining = _timerThis.time;
+            if (_timerThis.action) _timerThis.action();
+        }, this.remaining );
+        thisContext._countdowns.push(this.timeout)
+    };
+    Countdown.prototype.pause = () => {
+        this.remaining = this.remainingTime();
+        if (this.inProgress())
+            window.clearTimeout(this.timeout);
+        this.timeout = undefined;
+    };
+    Countdown.prototype.resume = () => {
+        if (! this.inProgress())
+            this.restart( this.remaining );
+    };
+    Countdown.prototype.remainingTime = () => {
+        return (this.inProgress())
+            ? this.remaining - ((new Date()) - this.startTime)
+            : this.remaining;
+    };
+    Countdown.prototype.remainingSeconds = () => {
+      return Math.round(this.remainingTime() / 1000);
+    };
+    Countdown.prototype.inProgress = () => {
+        return !!(this.timeout);
+    };
+    Countdown.prototype.cancel = () => {
+        if (this.inProgress())
+            window.clearTimeout(this.timeout);
+        this.timeout = undefined;
+        this.remaining = this.time;
+    };
+    Woof.prototype.Countdown = Countdown;
+
+    thisContext._renderSprites = () => {
     thisContext._spriteContext.clearRect(0, 0, thisContext.width, thisContext.height);
     thisContext.sprites.forEach((sprite) => {
       sprite._render(thisContext._spriteContext);
