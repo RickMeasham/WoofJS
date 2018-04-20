@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "babel src/woof.es6.js --watch --out-file dist/woof.js"
+    "compile": "babel src node_modules/sat/SAT.js --watch --presets=minify --out-file dist/woof.js --source-maps"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,10 @@
   "homepage": "https://github.com/stevekrouse/WoofJS#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1"
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-minify": "^0.4.0"
+  },
+  "dependencies": {
+    "sat": "^0.7.0"
   }
 }
